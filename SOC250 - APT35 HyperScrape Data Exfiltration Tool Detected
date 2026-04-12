@@ -1,0 +1,267 @@
+# 🚨 SOC250 - APT35 HyperScrape Data Exfiltration
+**Severity:** High  
+**Category:** Data Exfiltration  
+**Threat Actor:** APT35 (Charming Kitten)  
+
+## 📌 Summary
+On December 27, 2023, a security alert (SOC250) was triggered indicating execution of a known APT35 (Charming Kitten) tool, Hyperscrape, on host Arthur (172.16.17[.]72).
+
+Investigation revealed:
+- Suspicious RDP login from external IP (173.209.51.54)
+- Execution of malicious file: EmailDownloader.exe
+- Email data extraction activity via OWA
+- Outbound connection to malicious IP (136.243.108.14)
+
+This activity is consistent with **email exfiltration using Hyperscrape**.
+
+---
+
+## 🚨 Key Indicators of Compromise (IOCs)
+
+| Type | Value |
+|------|------|
+| File | EmailDownloader.exe |
+| Hash | cd2ba296828660ecd07a36e8931b851dda0802069ed926b3161745aae9aa6daa |
+| Source IP | 173.209.51[.]54 |
+| Destination IP | 136.243.108[.]14 |
+| Host | Arthur (172.16.17[.]72) |
+
+---
+
+## 🧾 Timeline of Events
+
+| Time | Event |
+|------|------|
+| 11:17 AM | RDP login from external IP |
+| 11:21 AM | Email download activity detected |
+| 11:22 AM | Malicious executable triggered |
+| 11:22 AM | Outbound connection to malicious IP |
+
+---
+
+## 🔍 Investigation Details
+
+- RDP login (Event ID 4624, Logon Type 10) suggests remote access
+- File executed from Downloads directory (common attacker behavior)
+- VirusTotal confirms hash is malicious
+- Exchange logs confirm mailbox access and download activity
+- Firewall logs confirm outbound exfiltration attempt
+
+---
+
+## 🛠️ Actions Taken
+
+- Isolated affected host
+- Revoked user sessions
+- Initiated containment procedures
+
+---
+
+## 🛡️ Recommendations
+
+1. Reset credentials for affected user(s)
+2. Block malicious IPs at firewall
+3. Enable MFA for RDP access
+4. Monitor for lateral movement
+
+---
+
+## 🌐 OSINT References
+
+https://www.virustotal.com/gui/file/cd2ba296828660ecd07a36e8931b851dda0802069ed926b3161745aae9aa6daa
+Reported as malicious.
+Threat Score 52/72
+
+
+https://www.abuseipdb.com/check/136.243.108[.]14
+Reported as malicious
+
+https://www.abuseipdb.com/check/173.209.51[.]54
+
+https://www.whois.com/whois/136.243.108[.]14
+Created in 2004 in Germany
+
+External Reference APT35/Chinese Kittens
+https://blog.google/threat-analysis-group/countering-threats-iran/
+
+
+
+
+
+
+>>>RAW ALERT INESTIGATION REPORT
+1. SOC250 - APT35 HyperScrape Data Exfiltration Tool Detected
+
+SUMMMARY
+----------
+Summary
+
+On December 27, 2023, at 11:22 AM UTC, the SOC team received an alert titled “SOC250 – APT35 HyperScrape Data Exfiltration Tool Detected.” The alert was triggered when a suspicious executable named "EmailDownloader.exe"—linked to the APT35 (Charming Kitten) Hyperscrape tool —was executed on host Arthur with IP 172.16.17.72.
+
+Earlier at 11:17 AM UTC, user Arthur successfully logged in via RDP (Logon Type 10) from an external IP 173.209.51.54, indicating potential unauthorized remote access. Shortly after, the malicious file EmailDownloader.exe was executed from the path `C:\Users\LetsDefend\Downloads\EmailDownloader.exe`. The file’s hash cd2ba296828660ecd07a36e8931b851dda0802069ed926b3161745aae9aa6daa was identified as malicious on VirusTotal.
+
+At 11:21 AM UTC, Microsoft Exchange logs showed multiple email downloads from Arthur’s mailbox (`Operation: Download`, `FolderPath: \Mails\Inbox`), consistent with Hyperscrape email extraction activity. Immediately after the download, the infected host established an outbound HTTP connection to 136.243.108.14, an IP reported as malicious for email exfiltration.
+
+An OSINT check confirmed that both the file hash and the external IPs (173.209.51.54 and 136.243.108.14) were associated with malicious activity.
+
+I have disconnected the host from the network, revoked all active sessions for user Arthur, and initiated containment procedures pending further remediation.
+
+
+OR
+
+
+
+Summary
+
+On December 27, 2023, at 11:22 AM, the SOC team received an alert titled "SOC250 - APT35 HyperScrape Data Exfiltration Tool Detected." The alert was triggered when a suspicious executable named EmailDownloader.exe, associated with APT35's Hyperscrape email exfiltration tool, was executed on host Arthur (172.16.17.72).
+At 11:17 AM, a successful RDP login (Logon Type 10) occurred from external IP 173.209.51[.]54 to the Arthur host. Shortly thereafter, the malicious file was executed from
+
+C:\Users\LetsDefend\Downloads\EmailDownloader.exe . The file's hash
+cd2ba296828660ecd07a36e8931b851dda0802069ed926b3161745aae9aa6daa was confirmed as malicious on VirusTotal.
+
+By 11:21 AM, email download activity was observed from Arthur's mailbox ( Operation: Download , via OWA), indicating active data extraction. One minute later, the host initiated a connection to 136.243.108.14 over HTTP port 80, a known malicious IP-suggesting email exfiltration to an external server.
+
+I have isolated the host from the network, revoked active user sessions, and initiated further investigation and remediation actions.
+
+
+
+ALERT DETAILS
+--------------
+	
+⭐ As of August 2022, APT35 aka Charming Kitten was observed using a new tool called Hyperscrape to extract emails from their victims’ mailboxes
+
+EventID : 212
+Event Time : Dec, 27, 2023, 11:22 AM
+Rule : SOC250 - APT35 HyperScrape Data Exfiltration Tool Detected
+Level : Security Analyst
+Hostname : Arthur
+Ip Address : 172.16.17[.]72
+Process Name : EmailDownloader.exe
+Process Path : C:\Users\LetsDefend\Downloads\EmailDownloader.exe
+Parent Process : C:\Windows\Explorer.EXE
+Command Line : C:\Users\LetsDefend\Downloads\EmailDownloader.exe
+File Hash : cd2ba296828660ecd07a36e8931b851dda0802069ed926b3161745aae9aa6daa
+Trigger Reason : Unusual or suspicious patterns of behavior linked to the hash have been identified, indicating potential malicious intent.
+Device Action : Allowed
+
+
+HOST INFORMATION
+----------------
+Host Information
+Hostname: Arthur
+Domain: LetsDefend
+IP Address: 172.16.17[.]72
+Bit Level: 64
+OS: Windows 10
+Primary User: Arthur
+Client/Server: Server
+Last Login: Dec, 27, 2023, 02:06 PM
+
+
+
+
+RAW LOG
+-------
+>>>
+Field     :       Value
+type : OS
+time : Dec, 27, 2023, 11:17 AM
+source address : 172.16.17[.]72
+source port : 0
+destination address : 172.16.17[.]72
+destination port : 0
+
+
+Raw Log
+
+Username : Arthur
+EventID : 4624(An account was successfully logged on)
+Logon Type : 10
+Source IP : 173.209.51[.]54
+
+
+>>>
+Field   : Value
+type :   Firewall
+time : Dec, 27, 2023, 11:17 AM
+source address : 173.209.51[.]54
+source port : 23412
+destination address : 172.16.17[.]72
+destination port : 3389
+
+
+
+>>>
+Field : Value
+
+type  :  Exchange 
+time : Dec, 27, 2023, 11:21 AM
+source address : 172.16.20[.]3
+source port : 42122
+destination address : 172.16.17[.]72
+destination port : 5985
+
+
+Raw Log
+
+Event MailboxGuid : 6d4fbdae-e3ae-4530-8d0b-f62a14687939
+Owner : EC2AMAZ-ILGVOIN\Arthur
+LastAccessed : 2023-12-27T11:21:48.140625-00:00
+Operation : Download
+OperationResult : Succeeded
+LogonType : User
+FolderId : 0000000073098C3277988F4CB882F5B82EBF64610100A7C317F68C24304BB...
+FolderPathName : \Mails\Inbox
+ClientInfoString : Client:OWA;Action:ViaProxy
+ClientIPAddress :172.16.17[.]72
+InternalLogonType : Owner
+MailboxOwnerUPN : arthur@letsdefend.io
+MailboxOwnerSid : S-1-5-21-290112810-296651436-1966561949-1151
+Subject : Notification of Multiple Mail Download
+
+
+
+>>>
+Field    Value
+
+type : Firewall
+source_address :172.16.17[.]72
+source_port :24234
+destination_address :136.243.108[.]14
+destination_port : 80
+time : Dec, 27, 2023, 11:22 AM
+
+
+ Raw Log
+Time: Dec, 27, 2023, 11:22 AM
+Source IP : 172.16.17.72
+Destination IP : 136.243.108[.]14
+Destination Port : 80
+Source Process : EmailDownloader.exe
+Firewall Action : SUCCESS
+
+RECOMMENDATIONS/ACTIONS
+-----------------------
+1.Isolate the affected host (Arthur – 172.16.17.72) from the network immediately.
+2.Terminate and quarantine the malicious executable (EmailDownloader.exe)
+3.Reset credentials and revoke all active user sessions for Arthur and any potentially affected accounts
+4.Block malicious IPs and domains at the firewall/proxy level.
+
+OSINT REFERENCES
+----------------
+
+http[s://]www.virustotal[.]com/gui/file/cd2ba296828660ecd07a36e8931b851dda0802069ed926b3161745aae9aa6daa
+Reported as malicious.
+Threat Score 52/72
+
+
+https[://]www.abuseipdb.[]com/check/136.243.108[.]14
+Reported as malicious
+
+https[://]www.abuseipdb[.]com/check/173.209.51[.]54
+
+https[://]www.whois[.]com/whois/136.243.108[.]14
+Created in 2004 in Germany
+
+External Reference APT35/Chinese Kittens
+https://blog[.]google/threat-analysis-group/countering-threats-iran/
