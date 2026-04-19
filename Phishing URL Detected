@@ -1,0 +1,82 @@
+SOC141-  Phishing URL Detected| EventID: 86 | Malicious | CLOSED|
+
+Summary:
+------------
+On March 22, 2021, at 09:23 PM, the MSOC Security Team detected a phishing attempt flagged under rule SOC141 – Phishing URL Detected. The activity originated from workstation EmilyComp (IP: 172.16.17[.]49), associated with user ellie, who attempted to access a suspicious URL:
+
+http://mogagrocol[.]ru/wp-content/plugins/akismet/fv/index.php?email=ellie@letsdefend[.]io
+
+The request was directed to the external host mogagrocol.ru (IP: 91.189.114[.]8) and was made using a Chrome browser (User Agent: Mozilla/5.0, Chrome/79.0.3945.88). Despite being flagged, the device action indicates the request was allowed, meaning the connection to the phishing domain was not blocked at the time of detection.
+
+I analyzed the URL using OSINT tools and in a sandbox environment. The URL was confirmed to be malicious. The suspicious activity involved a connection attempt to the domain mogagrocol.ru (91.189.114[.]8), specifically targeting a malicious PHP script hosted under a WordPress plugin path. The request contained the user’s corporate email address ellie@letsdefend.io as a query parameter.
+
+This incident represents a successful connection to a phishing domain targeting an internal user. Immediate containment and remediation are required to minimize risk of further compromise, and network monitoring should be enforced to detect additional attempts. We have detected and quarantined the threat, noted the IOCs, and can now close the ticket.
+
+ 
+Alert Details:
+--------------
+EventID :                 86
+Event Time :              Mar, 22, 2021, 09:23 PM
+Rule :                    SOC141 - Phishing URL Detected
+Level :                   Security Analyst 
+Source Address :          172.16.17[.]49
+Source Hostname :         EmilyComp
+Destination Address :     91.189.114.8
+Destination Hostname :    mogagrocol[.]ru
+Username : ellie
+Request URL :http[://]mogagrocol[.]ru/wp-=content/plugins/akismet/fv/index.phpemail=ellie@letsdefend.io
+User Agent : Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36
+Device Action :          Allowed
+
+
+User Information:
+----------------
+UserName: Ellie
+HostName: EmilyComp
+Host IP Address: 172.16.17.49
+Email Address: Ellie@letsdefend[.]io
+
+Actions/Recommendations
+-----------------------
+Immediate containment of EmilyComp (172.16.17[.]49) from the network to prevent further communication with the phishing domain.
+
+Block mogagrocol.ru (91.189.114[.]8) at firewall, proxy, and endpoint controls.
+Add the domain and IP to threat intelligence feeds.
+
+Engage with ellie to confirm if credentials were entered or suspicious prompts appeared during browsing. If compromised, enforce an immediate password reset and MFA check.
+
+URLs
+----
+http[://]mogagrocol[.]ru/wp-content/plugins/akismet/fv/index.php?email=ellie@letsdefend[.]io
+
+Domain::  
+mogagrocol[.]ru
+
+
+OSINT TOOL REFERENCES:
+---------------------
+VIRUSTOTAL
+http://mogagrocol[.]ru/  (5/97 security vendors flagged this URL as malicious)
+https://www.virustotal[.]com/gui/url/59f66ccc170da5f64845576b5097266dbec1f005a00ff5f50be9bb468e417ece?nocache=1
+
+http://mogagrocol[.]ru/wp-content/plugins/akismet/fv/index.php?email=ellie@letsdefend.io 
+(10/97 security vendors flagged this URL as malicious)
+https://www.virustotal[.]com/gui/url/149ad5bdb6fd67fd319f5b90b96c300beee2375ddef1dacd0c60f52da9c1f8fe
+
+WHOIS
+mogagrocol.ru was registered 14 years ago(Registered On: 2011-03-25).
+https://www.whois[.]com/whois/mogagrocol[.]ru
+
+ABUSEIPDB
+Has no record of the Destination IP(91.189.114.8)
+https://www.abuseipdb[.]com/check/91.189.114.8
+
+URLSCAN
+Verdict: No classification
+https://urlscan[.]io/result/0198b2c7-3244-769e-98ad-bb799720adf4/
+
+BROWSERLING
+403 displayed! : Forbidden to Access.
+https://www.browserling[.]com/browse/win10/chrome138/http://mogagrocol.ru/wp-content/plugins/akismet/fv/index.php?email=ellie@letsdefend[.]io
+
+https://www.browserling[.]com/browse/win10/chrome138/http://mogagrocol.ru/wp-content/plugins/akismet/fv/index.php
