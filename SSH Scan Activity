@@ -1,0 +1,77 @@
+SOC 147 - SSH Scan Activity |Malware | Event ID 94 | Non Malicious | Allowed | Closed
+
+Summary
+------------
+On June 13, 2021, at 04:23 PM UTC, the MSOC Security team received an alert titled "SOC147 – SSH Scan Activity." The alert was triggered when the host PentestMachine (IP: 172.16.20.5) was observed attempting multiple SSH connections to 172[.]16[.]20.2 on port 22 from source port 53222, activity associated with network scanning.
+
+The activity originated from the execution of the tool Nmap. The file hash associated with the executable was 3361bf0051cc657ba90b46be53fe5b36. OSINT investigations confirmed that the file corresponds to the Nmap executable which is non malicious and clean, and external analysis through Google search further validated the same finding.
+
+From the Endpoint Security Tab, on the Terminal History, the command nmap -sV -sP 172.16.20.0/24 ran from this machine(Pentest Machine) which performed a network scan of the specified IP address range, using both version detection and a ping scan to determine if hosts are up or down.
+
+To validate if this was malicious or authorized activity, the MSOC Security team reviewed the Mailbox (soc@letsdefend.io). An email from Ellie (elli@letsdefend.io) dated June 11, 2021, at 09:11 AM with the subject "Planned Scanning" confirmed that she would conduct a scan on the LetsDefend network starting June 13, 2021, after 12:00 PM, using the host PentestMachine (IP: 172.16.20.5), and requested that the SOC ignore related alerts. The details in the alert (hostname, IP, Date/Time, and activity) fully matched the planned scan notification.
+
+The alert was triggered by authorized penetration testing activity from PentestMachine (IP: 172[.]16[.]20[.]5), operated by Ellie. The file hash matched Nmap and no malicious indicators. Verification against Ellie’s prior email confirmed that the activity was pre-approved and planned. Based on these findings, the scan is considered legitimate and safe, and as no threats were identified, the case is closed as planned pentest activity with no further action required.
+
+Alert Details
+--------------
+EventID : 94
+Alert Time : Jun, 13, 2021, 04:23 PM UTC
+Event Date/Time: June, 13, 2021, 04:23 PM UTC 
+Rule : SOC147 - SSH Scan Activity
+Source Address : 172[.]16[.]20[.]5
+Destination Address  : 172[.]16[.]20[.]2
+Source Port  : 53222
+Destination Port :  22
+
+User Information:
+----------------
+UserName: Ellie
+Job title: Pentester
+Department: IT Security
+
+Host Information:
+-----------------
+Source Hostname : PentestMachine
+Domain: letsdefend.local
+IP Address: 172[.]16[.]20[.]5
+Bit Level:  64
+OS: Ubuntu 16.04.4
+Primary User: kali
+Client/Server: Client
+Last Login: Feb, 14, 2021, 06:53 PM
+
+File Information:
+-----------------
+File Name : nmap
+File Hash : 3361bf0051cc657ba90b46be53fe5b36
+File Size : 2.82 MB
+Device Action : Allowed
+File (Password:infected) : Download
+
+LOG REFERENCES
+------------------
+Alert Link: https[://]app[.]letsdefend[.]io/monitoring
+https://app.letsdefend[.]io/logmanagement/logs
+
+Actions/Recommendations
+-----------------------
+Planned and authorized non malicious host scan. 
+Case closed as Planned Pentest Activity with no further action required.
+
+OSINT REFERENCES:
+---------------------------------
+VirusTotal
+----------
+VT Threat score: 0/65
+hxxps[://]www[.]virustotal[.]com/gui/file/17e6235f28332367d640dd8d91359f826b1eaae888b2060e9868f1ba58ac4f67?nocache=1
+(0/65 security vendors flagged this file as malicious)
+
+Filescan[.]io
+-------------
+Verdict: No Threat
+hxxps[://]www[.]filescan[.]io/uploads/68a8f2314a87ed796768b7a6/reports/a1023f01-b7e4-442a-a42f-0e04ddcb3d69/overview
+
+External Resources about the file
+---------------------------------
+hxxps[://]www[.]google[.]com/search?q=3361bf0051cc657ba90b46be53fe5b36
+https[://]nmap[.]org/
