@@ -1,0 +1,132 @@
+# 🚨 SOC126 - Suspicious New Autorun Value Detected
+
+SOC126 - Suspicious New Autorun Value Detected | EventID: 61 | Severity: High | Status: CLOSED
+
+---
+
+## Summary
+---------
+On Feb 14, 2021, at 06:40 PM UTC, the MSOC Security team received an alert titled **“SOC126 – Suspicious New Autorun Value Detected.”** The alert was generated on host **KatharinePRD (IP: 172.16.15.78)**.
+
+The alert identified the execution of a file named **OliwciaPrivInstaller.exe**, which was configured to run automatically on system boot, indicating a persistence mechanism. OSINT analysis confirmed the file hash as malicious.
+
+Further investigation revealed a suspicious process named **creditcard** located at `/home/katharine/Documents/creditcard`. The process was executed with **root privileges**, which is highly abnormal for a user directory binary and indicative of potential malicious activity.
+
+Timeline analysis showed that the process had been present since **September 22, 2020**, suggesting a **long-term compromise** prior to detection.
+
+Although the endpoint reported the malware as cleaned, the presence of persistence mechanisms and a root-level process indicates that the system was **fully compromised**, requiring deeper investigation and remediation.
+
+---
+
+## Alert Details
+--------------
+EventID : 61  
+Event Time : Feb, 14, 2021, 06:40 PM  
+Rule : SOC126 - Suspicious New Autorun Value Detected  
+Level : Security Analyst  
+Source Address : 172.16.15.78  
+Source Hostname : KatharinePRD  
+File Name : OliwciaPrivInstaller.exe  
+File Hash : 436fa243bbfed63a99b8e9f866cd80e5  
+File Size : 348.00 Kb  
+Device Action : Cleaned  
+File (Password:infected) : Download  
+
+---
+
+## User Information
+----------------
+UserName: Katherine  
+Job title: Accounting  
+Department: Accounting  
+Mgr: Mr. Frank  
+Location: VA, USA  
+
+---
+
+## Host Information
+-----------------
+Hostname: KatharinePRD  
+Domain: LetsDefend  
+IP Address: 172.16.15.78  
+Bit Level: 64  
+OS: Ubuntu 16.04.4  
+Primary User: katharine  
+Client/Server: Client  
+Last Login: Feb, 28, 2021, 08:09 PM  
+
+---
+
+## File Information
+-----------------
+File Name : OliwciaPrivInstaller.exe  
+File Hash : 436fa243bbfed63a99b8e9f866cd80e5  
+Device Action : Cleaned  
+File (Password:infected) : Download  
+
+---
+
+## Processes
+---------------
+Process Name: creditcard  
+Process MD5: 7299c49dd85069e47d6514ab5e10c264  
+Path : /home/katharine/Documents/creditcard  
+Size : 17KB  
+Start Time : 2020-09-22 15:12  
+Username : root  
+
+---
+
+## Actions/Recommendations
+-----------------------
+
+### 🛑 Immediate Containment
+- Isolated the affected host (**KatharinePRD – 172.16.15.78**) from the network  
+- Terminated the suspicious **creditcard** process  
+- Removed the malicious autorun entry  
+
+### 🔐 Credential Security
+- Reset credentials for user **katharine**  
+- Investigated potential privilege escalation due to root-level execution  
+
+### 🔍 Investigation & Analysis
+- Reviewed system logs for:
+  - Additional persistence mechanisms  
+  - Unauthorized access or lateral movement  
+- Analyzed both:
+  - `OliwciaPrivInstaller.exe`
+  - `creditcard` binary  
+- Verified indicators using OSINT tools  
+
+### 🧪 Host Remediation
+- Due to evidence of persistence and root-level compromise, the system was treated as **fully compromised**  
+- Recommended **full system reimage/rebuild** to ensure complete eradication  
+
+### 🛡️ Preventive Measures
+- Enforced application control to prevent unauthorized executables  
+- Enabled monitoring for autorun/persistence changes  
+- Improved endpoint detection rules for similar behavior  
+
+---
+
+## Log References
+---------------
+https://app.letsdefend.io/endpoint  
+
+---
+
+## OSINT REFERENCES
+----------------
+VT Threat Score: 59/72  
+https://www.virustotal.com/gui/file/7a1ad31508f2ea1d7abc2907977eaf32537f09994d1622b3e2e733649905c861  
+
+VT Threat Score: 42/65  
+https://www.virustotal.com/gui/file/27e56f0f4bbb933a9ef25e0e0c2a4aaae578bdc2623e6bcdf664834e4ce60c9d  
+
+---
+
+## Analyst Conclusion
+-------------------
+This incident represents a **confirmed malware infection with persistence and potential root-level compromise**. Despite the endpoint reporting the threat as cleaned, the existence of a long-running malicious process and autorun configuration indicates that the system was previously compromised for an extended period.
+
+The host was treated as untrusted and required full remediation to ensure no residual attacker presence.
