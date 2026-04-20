@@ -7,6 +7,7 @@ Welcome to my SOC Analyst Portfolio. This repository contains real-world securit
 ## 🔍 Investigations
 
 - APT35 HyperScrape Data Exfiltration (SOC250)
+- Phishing URL Detected
 - AND MORE TO COME!!!
 
 ---
