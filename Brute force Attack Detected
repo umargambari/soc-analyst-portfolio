@@ -1,0 +1,106 @@
+
+SOC176 - RDP Brute Force (Successful) | EventID: 4625 / 4624 | Critical | CLOSED
+
+Summary
+--------
+On March 07, 2024, at 11:44 AM UTC, the MSOC Security team received an alert titled "SOC176 – RDP Brute Force Detected." The alert was triggered when the external host with IP address 218.92.0.56 was observed attempting multiple Remote Desktop Protocol (RDP) login connections to the internal host Matthew (IP: 172.16.17.148). The attempts originated from a single external source and involved repeated login failures using different, non-existing accounts. The firewall permitted the traffic, allowing the brute force attempts to reach the host.
+
+Further investigation using OSINT tools confirmed that the source IP (218[.]92[.]0[.]56) is malicious and traced back to China.
+
+Review of Windows Security Event Logs revealed repeated failed login attempts with usernames such as guest, admin, sysadmin, and finally Matthew. The attacker was ultimately successful in logging in after guessing the correct credentials for the Matthew account, establishing an RDP session. I Isolated the compromised host (Matthew – 172.16.17[.]148) from the network, disabled RDP access on the affected system and revoked all active sessions for the account. I directed IT Support to reset Matthew’s account with a strong password, enforce MFA on RDP accounts, restrict RDP to trusted IPs, and I monitored the host for persistence.
+
+Alert Details
+--------------
+EventID : 234
+Event Time : Mar, 07, 2024, 11:44 AM
+Rule : SOC176 - RDP Brute Force Detected
+Level : Security Analyst
+Source IP Address : 218.92.0.56
+Destination IP Address : 172.16.17[.]148
+Destination Hostname : Matthew
+Protocol : RDP
+Firewall Action : Allowed
+Alert Trigger Reason :  Login failure from a single source with different non existing accounts
+
+User Information
+----------------
+username: Matthew
+User email: matthew@letsdefend.io
+User title: Security Analyst
+User organization: @letsdefend.io
+
+Host Information
+-----------------
+Hostname: Matthew
+Domain: LetsDefend 
+IP Address: 218[.]92[.]0[.]56
+Bit Level: 64
+OS: Windows 10
+Primary User: Matthew
+Client/Server: Client
+Last Login: Mar, 07, 2024, 04:00 AM
+
+IP Information
+--------------
+Source Address: 218[.]92[.]0[.]56
+ISP: China Telecom (CHINANET Jiangsu Province Network)
+Usage Type: ISP / Broadband Services
+ASN: AS4134
+Domain Name: chinatelecom.cn
+Country: China
+City: Nanjing, Jiangsu
+
+RAW LOGS
+--------
+>>
+Username: guest
+
+EventID: 4625(An account failed to log on)
+Error Code: 0xC000006D(Unknown user name or bad password)
+Source IP: 218.92.0.56
+
+>>
+Username: admin
+
+EventID: 4625(An account failed to log on)
+Error Code: 0xC000006D(Unknown user name or bad password)
+Source : IP: 218[.]92[.]0[.]56
+
+>>
+Username: sysadmin
+
+EventID: 4625(An account failed to log on)
+Error Code: 0xC000006D(Unknown user name or bad password)
+Source IP: 218[.]92[.]0[.]56
+
+>>
+Username: Matthew
+
+EventID: 4624(An account was successfully logged on.)
+Logon Type: 10(RemoteInteractive)
+Source IP: 218[.]92[.]0[.]56
+
+>>
+Username: Matthew
+
+EventID: 4625(An account failed to log on)
+Error Code: 0xC000006A(user name is correct but the password is wrong)
+Source IP IP: 218[.]92[.]0[.]56
+
+ACTIONS/RECOMMENDATIONS
+---------------------------------
+Disconnect the host Matthew (172.16.17.148) from the network.
+Disable the Matthew account and reset its credentials.
+Block the attacker IP (218.92.0.56) at the firewall and security controls.
+Check whether the attacker created any new accounts or modified privileges.
+ 
+REFERENCES
+----------
+https://www.virustotal.com/gui/ip-address/218[.]92[.]0[.]56
+8/95 security vendors flagged this IP address as malicious.
+
+ https://www.abuseipdb.com/check/218.92.0.56
+This IP was reported 456,141 times. Confidence of Abuse is 0%:
+
+https://www.whois.com/whois/218.92.0.56
+From china
