@@ -1,0 +1,106 @@
+SOC107 - Privilege Escalation Detected
+Summary:
+---
+
+On January 31, 2021, at 04:20 PM UTC, the MSOC Security team received an alert titled “SOC107 – Privilege Escalation Detected.” The alert was triggered when user Richard from the Accounting department was observed downloading a suspicious file named "JuicyPotato.exe" on host RichardPRD with IP 172[.]16[.]17[.]45.
+
+Further investigation revealed that the user accessed the URL Request URL: hxxp[://]andaluciabeach[.]net/image/network[.]exe via a GET request, resulting in the download of a malicious file named JuicyPotato.exe. The file was executed by EQNEDT32.EXE, a process commonly exploited in Microsoft Office-based privilege escalation attacks, and its parent process was excel.exe.
+
+An OSINT check confirmed that the file hash 808502752ca0492aca995e9b620d507b was malicious. The destination IP 5[.]135[.]143[.]133 was also identified as malicious.
+
+I have revoked all active user sessions and disconnected the host from the network pending further remediations.
+
+
+Alert Details
+---
+EventID : 48
+Event Time : Jan, 31, 2021, 04:20 PM
+Rule : SOC107 - Privilege Escalation Detected
+Level : Security Analyst
+Source Address : 172.16.17.45
+Destination Address: 5[.]135[.]143[.]133
+Source Hostname : RichardPRD
+File Name : JuicyPotato.exe
+File Hash : 808502752ca0492aca995e9b620d507b
+File Size : 340 KB
+Device Action : Allowed
+File (Password:infected) : Download
+
+
+
+USER INFORMATION
+---
+UserName: Richard
+Job title: accounting
+Deparment: accounting
+Mgr: Mr.Frank
+Location: Va USA
+
+
+
+
+Host Information
+---
+Hostname: RichardPRD
+Domain: letsdefend.local
+IP Address: 172.16.17.45
+Bit Level: 64
+OS: Windows 10
+Primary User: richard
+Client/Server: Client
+Last Login: Jan, 31, 2021, 02:28 PM
+
+
+
+FILE INFORMATION
+---
+File Name : JuicyPotato.exe
+File Hash : 808502752ca0492aca995e9b620d507b
+
+Raw Log
+---
+Request URL: hxxp[://]andaluciabeach[.]net/image/network[.]exe
+Request Method : GET
+Device Action : Allowed
+Process:  EQNEDT32.EXE
+Parent Process : excel.exe
+Parent Process MD5 : 8b88ebbb05a0e56b7dcc708498c02b3e
+ 
+ACTIONS/RECCOMEENDATIONS
+
+Containment
+- Isolated host (RichardPRD) from network
+- Revoked active user sessions
+- Blocked malicious IP (5.135.143[.]133)
+
+Investigation
+- Reviewed process tree (Excel → EQNEDT32 → JuicyPotato)
+- Checked for successful privilege escalation (SYSTEM-level processes)
+- Investigated for persistence mechanisms (scheduled tasks, services)
+
+Host Analysis
+- Scanned system for additional payloads
+- Checked for credential dumping activity
+- Reviewed lateral movement attempts
+
+Remediation
+- Removed malicious files
+- Recommended full system reimage due to privilege escalation risk
+
+
+OSINT REFERENCES
+---
+
+https://www.virustotal.com/gui/file/0f56c703e9b7ddeb90646927bac05a5c6d95308c8e13b88e5d4f4b572423e036
+VT Threat Score 60/72
+Verdict: Malicious
+
+
+https://www.whois.com/whois/5.135.143.133
+
+https://www.abuseipdb.com/check/5.135.143.133
+
+
+External reference:
+Process:  EQNEDT32.EXE
+https://www.bleepingcomputer.com/news/security/office-equation-editor-security-bug-runs-malicious-code-without-user-interaction/
