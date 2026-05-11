@@ -1,0 +1,95 @@
+SOC205 - Malicious Macro has been executed |MEDIUM|
+
+Summary  
+On Feb 28, 2024 at 08:42 AM UTC, the MSOC team received an alert titled “Malicious Macro Has Been Executed.” The alert was triggered when user Jayne on host 172.16.17[.]198 downloaded a zip file named edit1‑invoice.docm.zip through Explorer (explorer.exe). OSINT analysis confirmed the file to be malicious.
+
+Inside the ZIP was a macro‑enabled Word document (.docm). When opened, the document executed a PowerShell command designed to download and run a file named messbox.exe. Most security vendors classify messbox.exe as malware.
+
+The malicious macro attempted to download the payload using a GET request to:  
+http://www.greyhathacker[.]net/tools/messbox.exe
+
+This domain resolved to the IP address 92.204.221.16, which was reported 20 times and confirmed to be malicious. The host attempted to communicate with this IP immediately after the PowerShell execution, indicating successful malware activity.
+
+The affected host was isolated from the network, malicious processes were terminated, and outbound communication to the identified malicious IP and domain was blocked.
+
+Malicious files were removed, a full Defender scan was initiated, persistence checks were performed, and the device was prepared for safe reintegration into the network.
+
+
+
+Alert details
+-------------
+EventID : 231
+Event Time : Feb, 28, 2024, 08:42 AM
+Rule : SOC205 - Malicious Macro has been executed
+Level : Security Analyst
+Hostname : Jayne
+Ip Address : 172.16.17.198
+File Name : edit1-invoice.docm
+File Path : C:\Users\LetsDefend\Downloads\edit1-invoice.docm
+File Hash : 1a819d18c9a9de4f81829c4cd55a17f767443c22f9b30ca953866827e5d96fb0
+Trigger Reason : Suspicious file detected on system.
+AV/EDR Action : Detected
+
+
+
+USER INFORMATION
+----------------
+UserName: Jayne
+Job title: Accountant(Imaginary)
+Deparment: accounting
+Mgr: Mr.Trent
+Location: LA,USA
+
+
+HOST INFORMATION
+----------------
+Host Information
+Hostname: Jayne
+Domain: LetsDefend
+Ip Address : 172.16.17.198
+Bit Level:64
+OS: Windows 10
+Primary User: Letsdefend
+Client/Server: Server
+Last Login:Feb, 28, 2024, 07:43 PM
+
+
+RAW LOG
+-------
+Field                Value
+type                 OS
+source_address       172.16.17.198
+source_port          0
+destination_address  172.16.17.198
+destination_port     0
+time                 Feb, 28, 2024, 08:41 AM
+
+Raw Log
+EventID  11(File Created)
+Image     C:\Windows\Explorer.EXE
+Target File Name  C:\Users\LetsDefend\Downloads\edit1-invoice.docm.zip
+RuleName  Downloads
+
+
+ACTIONS/RECCOMENDATIONS
+-----------------------
+Isolate the host from the network.
+Kill malicious process.
+Block the malicious domain/IP.
+Delete malicious file.
+Remove persistence.
+Run a full AV/EDR Scan.
+
+
+OSINT References
+-----------
+https://www.virustotal.com/gui/file/1a819d18c9a9de4f81829c4cd55a17f767443c22f9b30ca953866827e5d96fb0
+File Hash Malicious
+
+https://www.virustotal.com/gui/url/20437b08d0cfbfeab76786a754f16dff53ca1f2d0f6f0a17a0aa3e97f07de824
+URL
+https://www.abuseipdb.com/check/92.204.221.16 : Reported as malicious
+
+External Reference
+https://www.file.net/process/messagebox.exe.htm
+
